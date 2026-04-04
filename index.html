@@ -64,15 +64,24 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Changed from center to accommodate top header */
             overflow: hidden;
-            transition: background-color 0.3s, color 0.3s; /* Transição suave ao trocar modo */
+            transition: background-color 0.3s, color 0.3s;
             
-            /* AJUSTE GLOBAL DE ESCALA ( -20% ) para evitar cortes em telas 1080p */
             zoom: 0.8;
             -moz-transform: scale(0.8);
             -moz-transform-origin: center center;
             width: 100%;
+        }
+
+        #screens-wrapper {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 10px;
         }
 
         /* --- WELCOME SCREEN --- */
@@ -85,6 +94,21 @@
             border: 4px solid var(--border-color);
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             animation: fadeIn 0.8s ease-out;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            padding: 8px 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 2px solid var(--border-color);
+            flex-shrink: 0;
         }
 
         #welcome-screen h1 {
@@ -112,7 +136,7 @@
             border-radius: 60px;
             cursor: pointer;
             transition: transform 0.2s, background-color 0.2s;
-            box-shadow: 0 6px 0 rgba(0,0,0,0.2); /* Sombra genérica para funcionar nos dois modos */
+            box-shadow: 0 6px 0 rgba(0,0,0,0.2);
         }
 
         .start-btn:hover {
@@ -130,23 +154,11 @@
         #app-container {
             width: 100%;
             height: 100%;
-            max-width: 1400px; /* PADRÃO DATASHOW */
+            max-width: 1400px;
             display: none;
             flex-direction: column;
-            padding: 15px;
-            transition: max-width 0.3s; /* Animação ao trocar configuração */
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 8px 20px;
-            background: var(--card-bg);
-            border-radius: 15px;
-            border: 2px solid var(--border-color);
-            flex-shrink: 0;
+            padding: 0;
+            transition: max-width 0.3s;
         }
 
         .header-controls {
@@ -236,7 +248,6 @@
             font-size: 2.2rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.1s;
             text-align: left;
             border: 3px solid transparent;
             display: flex;
@@ -262,8 +273,6 @@
         }
         
         .option-card:active {
-             transform: translateY(4px);
-             box-shadow: none !important;
              background-color: var(--accent-color) !important;
         }
 
@@ -560,26 +569,28 @@
 </head>
 <body>
 
-    <!-- WELCOME SCREEN -->
-    <div id="welcome-screen">
-        <h1>Enquete da Geração Z</h1>
-        <p>Descubra o que seus alunos pensam sobre<br><strong>Trabalho, Saúde Mental e Futuro.</strong></p>
-        <button id="start-btn" class="start-btn">🚀 Iniciar Apresentação</button>
-    </div>
+    <!-- GLOBAL HEADER (Visible at all times) -->
+    <header id="global-header">
+        <div class="header-controls">
+            <button id="home-btn" class="icon-btn" title="Início">🏠</button>
+        </div>
+        <div class="progress" id="progress-text" style="visibility: hidden;">Pergunta 1 de X</div>
+        <div class="header-controls">
+            <button id="settings-btn" class="icon-btn" title="Configurações">⚙️</button>
+        </div>
+    </header>
 
-    <!-- MAIN APP CONTAINER -->
-    <div id="app-container">
-        <header>
-            <div class="header-controls">
-                <button id="home-btn" class="icon-btn" title="Início">🏠</button>
-            </div>
-            <div class="progress" id="progress-text">Pergunta 1 de X</div>
-            <div class="header-controls">
-                <button id="settings-btn" class="icon-btn" title="Configurações">⚙️</button>
-            </div>
-        </header>
+    <div id="screens-wrapper">
+        <!-- WELCOME SCREEN -->
+        <div id="welcome-screen">
+            <h1>Enquete da Geração Z</h1>
+            <p>Descubra o que seus alunos pensam sobre<br><strong>Trabalho, Saúde Mental e Futuro.</strong></p>
+            <button id="start-btn" class="start-btn">🚀 Iniciar Apresentação</button>
+        </div>
 
-        <main>
+        <!-- MAIN APP CONTAINER -->
+        <div id="app-container">
+            <main>
             <!-- QUESTION VIEW (Container Flexível com Rolagem) -->
             <div id="question-view">
                 <div class="question-text" id="question-text">Carregando...</div>
@@ -612,7 +623,7 @@
                 <button id="generate-btn" class="action-btn">📊 Ver Gráfico</button>
                 <button id="next-question-btn" class="action-btn">Próxima Questão ➔</button>
             </div>
-        </main>
+        </div>
     </div>
 
     <!-- SETTINGS MODAL -->
@@ -929,6 +940,7 @@
         function startPoll() {
             welcomeScreen.style.display = 'none';
             appContainer.style.display = 'flex';
+            progressText.style.visibility = 'visible'; // Show progress on poll start
             currentQuestionIndex = 0;
             sessionResults = [];
             loadQuestion();
@@ -938,6 +950,7 @@
              appContainer.style.display = 'none';
              finalScreen.style.display = 'none';
              welcomeScreen.style.display = 'block';
+             progressText.style.visibility = 'hidden'; // Hide progress on home
              settingsModal.classList.remove('visible');
              questionEditorModal.classList.remove('visible');
         }
@@ -1079,6 +1092,7 @@
             questionView.style.display = 'none';
             finalScreen.style.display = 'flex';
             progressText.textContent = "FIM";
+            progressText.style.visibility = 'visible';
             
             const summaryContainer = document.getElementById('results-summary');
             
@@ -1266,6 +1280,7 @@
         restartButton.addEventListener('click', () => {
             finalScreen.style.display = 'none';
             welcomeScreen.style.display = 'block';
+            progressText.style.visibility = 'hidden';
         });
         settingsButton.addEventListener('click', openSettingsModal);
         closeSettingsBtn.addEventListener('click', closeSettingsModal);

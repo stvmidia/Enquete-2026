@@ -673,12 +673,6 @@
                 <input type="hidden" id="editing-index">
                 
                 <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:bold; color: #475569;">Pilar</label>
-                    <input type="text" id="input-pillar" list="pillar-suggestions" required style="width:100%;">
-                    <datalist id="pillar-suggestions"></datalist>
-                </div>
-                
-                <div class="form-group" style="margin-bottom: 15px;">
                     <label style="display:block; margin-bottom:5px; font-weight:bold; color: #475569;">Pergunta</label>
                     <input type="text" id="input-question" required style="width:100%;">
                 </div>
@@ -1078,7 +1072,7 @@
             if (votes.d === maxVoteCount) winners.push(currentQ.options.d);
 
             sessionResults.push({
-                pillar: currentQ.pillar,
+                question: currentQ.question,
                 winners: winners.join(" / ")
             });
         }
@@ -1103,7 +1097,7 @@
 
             summaryContainer.innerHTML = sessionResults.map(r => `
                 <div class="pillar-result">
-                    <strong>${r.pillar}</strong>
+                    <strong>${r.question}</strong>
                     <span>${r.winners}</span>
                 </div>
             `).join('');
@@ -1122,15 +1116,6 @@
         function renderQuestionsList() {
             questionsListContainer.innerHTML = '';
             
-            const uniquePillars = [...new Set(questions.map(q => q.pillar))];
-            const dataList = document.getElementById('pillar-suggestions');
-            dataList.innerHTML = '';
-            uniquePillars.forEach(pillar => {
-                const option = document.createElement('option');
-                option.value = pillar;
-                dataList.appendChild(option);
-            });
-
             if (questions.length === 0) {
                 const p = document.createElement('p');
                 p.style.textAlign = 'center';
@@ -1151,14 +1136,54 @@
                 itemDiv.style.justifyContent = 'space-between';
                 itemDiv.style.alignItems = 'center';
                 itemDiv.style.border = '1px solid #cbd5e1';
+                itemDiv.style.gap = '10px';
+
+                const indexSpan = document.createElement('span');
+                indexSpan.textContent = `${index + 1}.`;
+                indexSpan.style.fontWeight = 'bold';
+                indexSpan.style.fontSize = '1.2rem';
+                indexSpan.style.color = 'var(--highlight-color)';
+                indexSpan.style.minWidth = '30px';
+                itemDiv.appendChild(indexSpan);
 
                 const textP = document.createElement('p');
-                textP.innerHTML = `<strong>${q.pillar}:</strong> ${q.question}`;
+                textP.innerHTML = `${q.question}`;
                 textP.style.margin = '0';
                 textP.style.flex = '1';
                 textP.style.marginRight = '10px';
                 textP.style.color = '#0f172a';
                 itemDiv.appendChild(textP);
+
+                const reorderDiv = document.createElement('div');
+                reorderDiv.style.display = 'flex';
+                reorderDiv.style.flexDirection = 'column';
+                reorderDiv.style.gap = '5px';
+
+                const upBtn = document.createElement('button');
+                upBtn.innerHTML = '▲';
+                upBtn.style.background = '#e2e8f0';
+                upBtn.style.border = 'none';
+                upBtn.style.borderRadius = '4px';
+                upBtn.style.cursor = 'pointer';
+                upBtn.style.padding = '2px 8px';
+                upBtn.disabled = index === 0;
+                upBtn.style.opacity = index === 0 ? '0.3' : '1';
+                upBtn.onclick = () => moveQuestion(index, -1);
+                reorderDiv.appendChild(upBtn);
+
+                const downBtn = document.createElement('button');
+                downBtn.innerHTML = '▼';
+                downBtn.style.background = '#e2e8f0';
+                downBtn.style.border = 'none';
+                downBtn.style.borderRadius = '4px';
+                downBtn.style.cursor = 'pointer';
+                downBtn.style.padding = '2px 8px';
+                downBtn.disabled = index === questions.length - 1;
+                downBtn.style.opacity = index === questions.length - 1 ? '0.3' : '1';
+                downBtn.onclick = () => moveQuestion(index, 1);
+                reorderDiv.appendChild(downBtn);
+
+                itemDiv.appendChild(reorderDiv);
 
                 const actionsDiv = document.createElement('div');
                 actionsDiv.className = 'question-item-actions';
@@ -1203,6 +1228,17 @@
             });
         }
 
+        function moveQuestion(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex >= 0 && newIndex < questions.length) {
+                const temp = questions[index];
+                questions[index] = questions[newIndex];
+                questions[newIndex] = temp;
+                saveQuestions();
+                renderQuestionsList();
+            }
+        }
+
         // --- QUESTION EDITOR LOGIC ---
         
         function openQuestionEditor(index = null) {
@@ -1210,7 +1246,6 @@
             if (index !== null) {
                 editorTitle.textContent = 'Editar Pergunta';
                 const q = questions[parseInt(index, 10)];
-                pillarInput.value = q.pillar;
                 questionInput.value = q.question;
                 optionAInput.value = q.options.a;
                 optionBInput.value = q.options.b;
@@ -1231,7 +1266,6 @@
         function handleSaveQuestion(e) {
             e.preventDefault();
             const newQuestion = {
-                pillar: pillarInput.value.trim(),
                 question: questionInput.value.trim(),
                 options: {
                     a: optionAInput.value.trim(),

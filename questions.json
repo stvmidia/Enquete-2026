@@ -1,0 +1,110 @@
+[
+    {
+        "question": "O que faria você recusar uma oferta de emprego com um salário alto?",
+        "options": { 
+            "a": "Se o local fosse longe da minha casa.", 
+            "b": "Se o ambiente fosse tóxico e prejudicasse minha saúde mental.", 
+            "c": "Se o trabalho fosse chato e sem propósito, mesmo pagando bem.", 
+            "d": "Eu não recusaria, salário alto é o mais importante." 
+        }
+    },
+    {
+        "question": "Imagine que você está em um emprego estável, mas infeliz. Qual seria sua atitude mais provável?",
+        "options": { 
+            "a": "Ficaria no emprego pela segurança financeira.", 
+            "b": "Começaria a procurar outro discretamente, mas só sairia com contrato assinado.", 
+            "c": "Pediria demissão imediatamente para focar em mim mesmo(a).", 
+            "d": "Tentaria mudar de setor dentro da mesma empresa." 
+        }
+    },
+    {
+        "question": "Se você recebesse R$ 100.000,00 hoje, qual seria seu principal investimento?",
+        "options": { 
+            "a": "Daria entrada na compra de uma casa ou terreno.", 
+            "b": "Investiria em viagens internacionais e experiências de vida.", 
+            "c": "Investiria na minha educação ou abriria meu próprio negócio.", 
+            "d": "Compraria um carro de luxo ou eletrônicos de última geração." 
+        }
+    },
+    {
+        "question": "Como você vê a questão da \"Casa Própria\"?",
+        "options": { 
+            "a": "É meu maior sonho, não me vejo pagando aluguel para sempre.", 
+            "b": "É importante, mas não é minha prioridade agora.", 
+            "c": "Prefiro viver de aluguel e ter liberdade para mudar de cidade/país.", 
+            "d": "Acho que é um investimento ruim comparado a outras opções." 
+        }
+    },
+    {
+        "question": "Para você, o que define uma pessoa \"bem-sucedida\"?",
+        "options": { 
+            "a": "Ter muito dinheiro e bens materiais (casa, carro).", 
+            "b": "Ter liberdade de tempo e poder trabalhar de onde quiser.", 
+            "c": "Ter uma família grande e unida.", 
+            "d": "Ser famoso(a) ou reconhecido(a) na internet." 
+        }
+    },
+    {
+        "question": "Você se sente confortável para conversar sobre seus sentimentos e ansiedades com sua família?",
+        "options": { 
+            "a": "Sim, converso abertamente sobre tudo.", 
+            "b": "Mais ou menos, seleciono o que falo.", 
+            "c": "Não, meus pais não entendem essas questões.", 
+            "d": "Prefiro conversar apenas com amigos ou na internet." 
+        }
+    },
+    {
+        "question": "O que mais te causa ansiedade em relação ao futuro?",
+        "options": { 
+            "a": "Medo de não conseguir emprego ou dinheiro suficiente.", 
+            "b": "A pressão para decidir logo o que fazer da vida.", 
+            "c": "As mudanças climáticas e o futuro do planeta.", 
+            "d": "A solidão e a dificuldade de ter relacionamentos duradouros." 
+        }
+    },
+    {
+        "question": "Como você imagina sua vida aos 30 anos em relação à família?",
+        "options": { 
+            "a": "Casado(a) e com filhos.", 
+            "b": "Em um relacionamento sério, mas sem filhos.", 
+            "c": "Solteiro(a) e focado(a) totalmente na carreira/viagens.", 
+            "d": "Morando com amigos ou com os pais, sem pressa." 
+        }
+    },
+    {
+        "question": "A ideia de ter filhos no futuro é:",
+        "options": { 
+            "a": "Uma certeza, quero muito ser pai/mãe.", 
+            "b": "Uma dúvida, depende muito da minha condição financeira.", 
+            "c": "Uma possibilidade distante, não penso nisso agora.", 
+            "d": "Algo que não pretendo, prefiro não ter filhos." 
+        }
+    },
+    {
+        "question": "As notícias sobre aquecimento global e desastres ambientais afetam suas decisões de futuro (como onde morar ou ter filhos)?",
+        "options": { 
+            "a": "Sim, penso muito nisso e tenho medo do futuro.", 
+            "b": "Preocupa um pouco, mas tento seguir minha vida normal.", 
+            "c": "Não influencia, acho que a tecnologia vai resolver.", 
+            "d": "Não acompanho muito esse assunto." 
+        }
+    },
+    {
+        "question": "Você consideraria ser um influenciador digital ou YouTuber como sua carreira principal?",
+        "options": { 
+            "a": "Sim, é meu sonho trabalhar com internet.", 
+            "b": "Talvez, se fosse como uma renda extra.", 
+            "c": "Não, prefiro uma profissão \"tradicional\" (médico, advogado, engenheiro, etc).", 
+            "d": "Não, detesto me expor nas redes sociais." 
+        }
+    },
+    {
+        "question": "Comparando com a época dos seus pais, você acha que para a sua geração:",
+        "options": { 
+            "a": "É mais difícil conquistar bens materiais (casa, carro).", 
+            "b": "É mais fácil ganhar dinheiro, pois há mais opções na internet.", 
+            "c": "É mais difícil ter saúde mental e estabilidade emocional.", 
+            "d": "É melhor, pois temos mais liberdade e menos preconceito." 
+        }
+    }
+]

@@ -1,0 +1,5 @@
+{
+  "name": "Real-time Classroom Poll",
+  "description": "An interactive polling application for teachers to survey students and visualize results in real-time with animated bar charts. Designed for classroom projection with a dark mode theme and large, readable fonts.",
+  "requestFramePermissions": []
+}

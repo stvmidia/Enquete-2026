@@ -741,6 +741,11 @@
         let sessionResults = []; 
         let questionToDeleteIndex = null; 
 
+        // --- SOUNDS ---
+        const voteSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
+        voteSound.preload = 'auto';
+        voteSound.volume = 0.5;
+
         // --- DOM ELEMENTS ---
         const welcomeScreen = document.getElementById('welcome-screen');
         const appContainer = document.getElementById('app-container');
@@ -919,6 +924,10 @@
             }
             
             window.getSelection().removeAllRanges();
+
+            // Play vote sound
+            voteSound.currentTime = 0;
+            voteSound.play().catch(e => console.log("Audio play failed:", e));
 
             votes[selectedOption]++;
             totalVotes++;

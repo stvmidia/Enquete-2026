@@ -741,10 +741,39 @@
         let sessionResults = []; 
         let questionToDeleteIndex = null; 
 
-        // --- SOUNDS ---
-        const voteSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
-        voteSound.preload = 'auto';
-        voteSound.volume = 0.5;
+        // --- SOUNDS (Web Audio API for reliability) ---
+        let audioCtx = null;
+
+        function playVoteSound() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(1200, audioCtx.currentTime); // Higher frequency
+                oscillator.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.15); // Longer slide
+
+                gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime); // Louder
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.15);
+                console.log("Som de voto reproduzido");
+            } catch (e) {
+                console.error("Erro ao reproduzir som:", e);
+            }
+        }
 
         // --- DOM ELEMENTS ---
         const welcomeScreen = document.getElementById('welcome-screen');
@@ -860,6 +889,19 @@
         }
 
         function startPoll() {
+            // Unlock audio context on first interaction
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                console.log("AudioContext desbloqueado");
+            } catch (e) {
+                console.error("Erro ao desbloquear áudio:", e);
+            }
+
             welcomeScreen.style.display = 'none';
             appContainer.style.display = 'flex';
             progressText.style.visibility = 'visible'; // Show progress on poll start
@@ -926,8 +968,7 @@
             window.getSelection().removeAllRanges();
 
             // Play vote sound
-            voteSound.currentTime = 0;
-            voteSound.play().catch(e => console.log("Audio play failed:", e));
+            playVoteSound();
 
             votes[selectedOption]++;
             totalVotes++;
@@ -1262,6 +1303,12 @@
         nextQuestionButton.addEventListener('click', showNextQuestion);
 
         // Init
+        document.body.addEventListener('click', () => {
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }, { once: false });
+
         fetchQuestions().then(() => {
             initDisplayMode();
         });
